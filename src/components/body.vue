@@ -5,12 +5,12 @@
             <div class="bg-success col-12 col-md-5 my-3 text-white rounded-lg">
             <form>
                 <div class="form-group">
-                    <label >Ingresos Activos</label>
-                    <input type="number" class="form-control" id="in-pay" placeholder="500,000 $">
+                    <label >Ingresos Activos ""Fijos""</label>
+                    <input type="number" class="form-control" placeholder="500,000 $">
                 </div>
                 <div class="form-group">
                     <label >Ingresos Extras-Pasivos</label>
-                    <input type="number" class="form-control" id="out-pay" placeholder="200.000 $">
+                    <input type="number" class="form-control" placeholder="200.000 $" v-model="other.positivo">
                 </div>
                 <div class="form-group">
                     <label>Día de control</label>
@@ -34,13 +34,13 @@
                        <div class="">
                            <div v-if="day===15">
                                  <div v-for="(deber,$index) in deberes15" :key="$index">
-                                    <label>{{$index}}${{deber}}</label><br>
+                                    <label>{{$index}}</label><br>
                                  </div>
                             </div>
 
                             <div v-if="day===31">
                                  <div v-for="(deber,$index) in deberes31" :key="$index">
-                                    <label>{{$index}}${{deber}}</label><br>
+                                    <label>{{$index}}</label><br>
                                  </div>
                             </div>
                 <hr>
@@ -48,7 +48,8 @@
                             <div v-if="other.state">
                                 <label>Gasto Adicional</label><br>
                                 <input type="text" name="gasto-adicional-title" id="gasto-adicional-title" placeholder="Motivo" v-model="other.title">
-                                <input type="number" name="gasto-adicional" id="gastoadicional" placeholder="$" v-model="other.price">
+                                <input type="number" name="gasto-adicional" id="gastoadicional" placeholder="$" v-model=other.price>
+
                             </div>
                        </div>
                 </div>
@@ -58,16 +59,16 @@
                             <table class="table table-striped">
                                 <tbody>
                                     <tr>
-                                    <th scope="row">Deberes</th>
-                                    <td>{{deberes.total=deberes.base+other.price}}</td>
+                                    <th scope="row">Para Deberes</th>
+                                    <td>{{sumaDeberes}}</td>
                                     </tr>
                                     <tr>
-                                    <th scope="row">Ahorrado</th>
-                                    <td>{{ahorro}}</td>
+                                    <th scope="row">Para Ahorrar</th>
+                                    <td>{{sumaAhorro}}</td>
                                     </tr>
-                                    <tr>
-                                    <th scope="row">Invercion</th>
-                                    <td>{{invercion}}</td>
+                                    <tr v-if="day===31">
+                                    <th scope="row">Para Inverciones</th>
+                                    <td>{{sumaInversion}}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -85,42 +86,50 @@ export default {
     name:"body",
     data:function (){
         return{
-            invercion:"200000",
-            ahorro:"100000",
             deberes:{
-                base:500000,
-                total:0
+                base:400000,
+                total:""
             },
             other:{
                 state:"",
                 title:"",
-                price:0
+                price:"",
+                positivo:""
             },
             day:"",
             deberes15:{
-                     Arriendo:200,
-                     Internet:70,
-                     Ahorro:100,
-                     Comida:130
+                     Ahorro:100000,
+                     Comida:130000,
+                     Arriendo:200000,
+                     Internet:70000
                      },
             deberes31:{
-                     Inversion:200,
-                     Banco:20,
-                     SeviciosExtra:50,
-                     Ahorro:100,
-                     Comida:130
-                     
+                     Ahorro:100000,
+                     Comida:130000,
+                     Inversion:200000,
+                     Banco:20000,
+                     SeviciosExtra:50000,      
             }
 
         }
     },
-    computed:
-    {
-        sumadeberes:function(){
-           
-           return this.deberes.base+this.other.price}
-    }
+    computed:{
+    sumaInversion:function(){
+        return this.deberes31.Inversion
+    },
+    sumaAhorro: function(){
+        if(this.other.positivo){
+        return (parseInt(this.other.positivo)*0.2)+this.deberes15.Ahorro}
+        return this.deberes15.Ahorro
     
+        
+    },
+    sumaDeberes: function(){
+        if(this.other.price){
+        return this.deberes.base+parseInt(this.other.price);
+        }
+        return this.deberes.base}
+    }
 }
 </script>
 
