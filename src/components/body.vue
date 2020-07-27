@@ -2,14 +2,14 @@
     <div class="container bg-dark c-body">
         <h2 class="text-white font-italic">Control de Ingresos</h2>
         <div class="row px-5">
-            <div class="bg-danger col-12 col-md-5 my-3 text-white rounded-lg">
+            <div class="bg-success col-12 col-md-5 my-3 text-white rounded-lg">
             <form>
                 <div class="form-group">
-                    <label >Total Ingresos</label>
+                    <label >Ingresos Activos</label>
                     <input type="number" class="form-control" id="in-pay" placeholder="500,000 $">
                 </div>
                 <div class="form-group">
-                    <label >Total Pagos</label>
+                    <label >Ingresos Extras-Pasivos</label>
                     <input type="number" class="form-control" id="out-pay" placeholder="200.000 $">
                 </div>
                 <div class="form-group">
@@ -43,9 +43,36 @@
                                     <label>{{$index}}${{deber}}</label><br>
                                  </div>
                             </div>
+                <hr>
+                            <label><input type="checkbox" id="other" value=true v-model="other.state">Agregar</label><br>
+                            <div v-if="other.state">
+                                <label>Gasto Adicional</label><br>
+                                <input type="text" name="gasto-adicional-title" id="gasto-adicional-title" placeholder="Motivo" v-model="other.title">
+                                <input type="number" name="gasto-adicional" id="gastoadicional" placeholder="$" v-model="other.price">
+                            </div>
                        </div>
                 </div>
                 <hr>
+                        <div>
+                            <h5>Resumen del Día</h5>
+                            <table class="table table-striped">
+                                <tbody>
+                                    <tr>
+                                    <th scope="row">Deberes</th>
+                                    <td>{{deberes.total=deberes.base+other.price}}</td>
+                                    </tr>
+                                    <tr>
+                                    <th scope="row">Ahorrado</th>
+                                    <td>{{ahorro}}</td>
+                                    </tr>
+                                    <tr>
+                                    <th scope="row">Invercion</th>
+                                    <td>{{invercion}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                           
+                        </div>
             </form>
         </div>
         </div>
@@ -58,10 +85,21 @@ export default {
     name:"body",
     data:function (){
         return{
+            invercion:"200000",
+            ahorro:"100000",
+            deberes:{
+                base:500000,
+                total:0
+            },
+            other:{
+                state:"",
+                title:"",
+                price:0
+            },
             day:"",
-            deberes15:{Arriendo:200,
+            deberes15:{
+                     Arriendo:200,
                      Internet:70,
-                     Mercado:130,
                      Ahorro:100,
                      Comida:130
                      },
@@ -75,7 +113,14 @@ export default {
             }
 
         }
+    },
+    computed:
+    {
+        sumadeberes:function(){
+           
+           return this.deberes.base+this.other.price}
     }
+    
 }
 </script>
 
