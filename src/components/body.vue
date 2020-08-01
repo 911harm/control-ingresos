@@ -15,8 +15,7 @@
                 <div class="form-group">
                     <label>Día de control</label>
                     <select class="form-control" id="day" v-model="day">
-                        <option :value=15>15</option>
-                        <option :value=31>31</option>
+                        <option v-for="(dia,$index) in Days" :key="$index" :value=dia >{{dia}}</option>
                     </select>
                 </div>
                 <div class="form-group pb-3">
@@ -38,7 +37,7 @@
                                  </div>
                             </div>
 
-                            <div v-if="day===31">
+                            <div v-if="day===30">
                                  <div v-for="(deber,$index) in deberes31" :key="$index">
                                     <label>{{$index}}</label><br>
                                  </div>
@@ -66,7 +65,7 @@
                                     <th scope="row">Para Ahorrar</th>
                                     <td>{{sumaAhorro}}</td>
                                     </tr>
-                                    <tr v-if="day===31">
+                                    <tr>
                                     <th scope="row">Para Inverciones</th>
                                     <td>{{sumaInversion}}</td>
                                     </tr>
@@ -76,6 +75,7 @@
                         </div>
             </form>
         </div>
+        <a href="#" class="btn btn-success btn-block text-white">Registrar</a>
         </div>
 
     
@@ -86,6 +86,8 @@ export default {
     name:"body",
     data:function (){
         return{
+            Days:[5,10,15,20,25,30],
+            day:"",
             deberes:{
                 base:400000,
                 total:""
@@ -96,39 +98,37 @@ export default {
                 price:"",
                 positivo:""
             },
-            day:"",
             deberes15:{
-                     Ahorro:100000,
-                     Comida:130000,
-                     Arriendo:200000,
-                     Internet:70000
+                     Comida:130,
+                     Arriendo:250,
+                     Internet:70
                      },
             deberes31:{
-                     Ahorro:100000,
-                     Comida:130000,
-                     Inversion:200000,
-                     Banco:20000,
-                     SeviciosExtra:50000,      
+                     Comida:130,
+                     Banco:20,     
             }
 
         }
     },
     computed:{
     sumaInversion:function(){
-        return this.deberes31.Inversion
+        if(this.other.positivo){
+        return (parseInt(this.other.positivo)*0.2)}
+        return "20% (acumula)"
     },
     sumaAhorro: function(){
         if(this.other.positivo){
-        return (parseInt(this.other.positivo)*0.2)+this.deberes15.Ahorro}
-        return this.deberes15.Ahorro
+        return (parseInt(this.other.positivo)*0.2)}
+
+        return "20%"
     
         
     },
     sumaDeberes: function(){
-        if(this.other.price){
-        return this.deberes.base+parseInt(this.other.price);
+        if(this.other.positivo){
+        return (parseInt(this.other.positivo)*0.6)}
+        return "Maximo 60%"
         }
-        return this.deberes.base}
     }
 }
 </script>
