@@ -75,7 +75,25 @@
                         </div>
             </form>
         </div>
-        <a href="#" class="btn btn-success btn-block text-white">Registrar</a>
+        <a href="#" @click=registrar class="btn btn-success mb-3 btn-block text-white">Registrar</a>
+        </div>
+        <!--Temporal para ver registro-->
+        <div>
+            <table class="table table-striped text-white">
+                                <th scope="column">N°Registro</th>
+                                    <th scope="column">Día</th>
+                                    <th scope="column">Ingresos</th>
+                                    <th scope="column">Ahorro</th> 
+                                <tbody v-for="(i,index) in registro" :key=index>
+                                    
+                                    <tr>
+                                    <th scope="row">{{index+1}}</th>
+                                    <td>{{i.day}}</td>
+                                    <td>{{i.ingresoT}}</td>
+                                    <td>{{i.ahorro}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
         </div>
 
     
@@ -85,7 +103,9 @@
 export default {
     name:"body",
     data:function (){
+        
         return{
+            registro:[],
             Days:[5,10,15,20,25,30],
             day:"",
             deberes:{
@@ -108,6 +128,37 @@ export default {
                      Banco:20,     
             }
 
+        }
+    },
+    mounted(){
+        if (localStorage.getItem('registro')) {
+            try {
+        this.registro = JSON.parse(localStorage.getItem('registro'));
+        console.log(this.registro);
+
+
+      } catch(e) {
+        localStorage.removeItem('ingreso-dia');
+      }
+        }
+    },
+    methods:{
+        registrar:function(){
+            if(this.other.positivo && this.day){
+            const dayregister={
+                day:this.day,
+                ingresoT:this.other.positivo,
+                deberes:this.other.price,
+                ahorro:this.sumaAhorro
+            }
+            this.registro.push(dayregister);
+            const parsed= JSON.stringify(this.registro)
+
+            localStorage.setItem('registro',parsed)
+            console.log("registrado el dia")}
+            else{
+                alert("Ingresos y Dia de registro!")
+            }
         }
     },
     computed:{
