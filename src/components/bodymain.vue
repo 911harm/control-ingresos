@@ -78,7 +78,7 @@
         <a href="#" @click=registrar class="btn btn-success mb-3 btn-block text-white">Registrar</a>
         </div>
         <!--Temporal para ver registro-->
-        <div>
+        <!-- <div>
             <table class="table table-striped text-white">
                                 <th scope="column">N°Registro</th>
                                     <th scope="column">Día</th>
@@ -94,14 +94,14 @@
                                     </tr>
                                 </tbody>
                             </table>
-        </div>
+        </div> -->
 
     
     </div>
 </template>
 <script>
 export default {
-    name:"body",
+    name:"bodymain",
     data:function (){
         
         return{
@@ -130,18 +130,18 @@ export default {
 
         }
     },
-    mounted(){
-        if (localStorage.getItem('registro')) {
-            try {
-        this.registro = JSON.parse(localStorage.getItem('registro'));
-        console.log(this.registro);
+    // mounted(){
+    //     if (localStorage.getItem('registro')) {
+    //         try {
+    //     this.registro = JSON.parse(localStorage.getItem('registro'));
+    //     console.log(this.registro);
 
 
-      } catch(e) {
-        localStorage.removeItem('ingreso-dia');
-      }
-        }
-    },
+    //   } catch(e) {
+    //     localStorage.removeItem('ingreso-dia');
+    //   }
+    //     }
+    // },
     methods:{
         registrar:function(){
             if(this.other.positivo && this.day){

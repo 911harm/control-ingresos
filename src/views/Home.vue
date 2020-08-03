@@ -2,7 +2,7 @@
   <div class="home">
     <Nav/>
     <Header/>
-    <Body/>
+    <bodymain/>
     <Footer/>
   </div>
 </template>
@@ -11,7 +11,7 @@
 // @ is an alias to /src
 import Header from '@/components/header.vue'
 import Nav from '@/components/nav.vue'
-import Body from '@/components/body.vue'
+import Bodymain from '@/components/bodymain.vue'
 import Footer from '@/components/footer.vue'
 
 export default {
@@ -19,7 +19,7 @@ export default {
   components: {
     Header,
     Nav,
-    Body,
+    Bodymain,
     Footer
   }
 }
